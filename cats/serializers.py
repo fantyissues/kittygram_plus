@@ -11,9 +11,13 @@ class AchievementSerializer(serializers.ModelSerializer):
 
 
 class CatSerializer(serializers.ModelSerializer):
-    achievements = AchievementSerializer(many=True)
+    achievements = AchievementSerializer(many=True, required=False)
 
     def create(self, validated_data):
+        if 'achievements' not in self.initial_data:
+            cat = Cat.objects.create(**validated_data)
+            return cat
+        
         achievements = validated_data.pop('achievements')
         cat = Cat.objects.create(**validated_data)
         for achievement in achievements:
