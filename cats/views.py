@@ -1,15 +1,24 @@
-from rest_framework import viewsets
-from rest_framework import mixins
+from django.contrib.auth import get_user_model
+from djoser.views import UserViewSet
+from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from .models import Cat, Owner
-from .serializers import CatSerializer, CatListSerializer, OwnerSerializer
+from .serializers import (CatListSerializer, CatSerializer,
+                          CustomUserSerializer, OwnerSerializer)
+
+User = get_user_model()
 
 
 class CreateRetrieveViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin,
                             viewsets.GenericViewSet):
     pass
+
+
+class CustomUserViewSet(UserViewSet):
+    queryset = User.objects.all()
+    serializer_class = CustomUserSerializer
 
 
 class LightCatViewSet(CreateRetrieveViewSet):

@@ -1,11 +1,13 @@
 import datetime as dt
 
 # import webcolors
+from django.contrib.auth import get_user_model
+from djoser.serializers import UserSerializer
 from rest_framework import serializers
 
-from .models import Achievement, AchievementCat, Cat, Owner, CHOICES
+from .models import CHOICES, Achievement, AchievementCat, Cat, Owner
 
-
+User = get_user_model()
 # class Hex2NameColor(serializers.Field):
 
 #     def to_representation(self, value):
@@ -17,6 +19,12 @@ from .models import Achievement, AchievementCat, Cat, Owner, CHOICES
 #         except ValueError:
 #             raise serializers.ValidationError('Для этого цвета нет имени')
 #         return data
+
+class CustomUserSerializer(UserSerializer):
+    
+    class Meta:
+        model = User
+        fields = ('email', 'id', 'username', 'first_name', 'last_name')
 
 
 class AchievementSerializer(serializers.ModelSerializer):

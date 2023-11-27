@@ -1,6 +1,5 @@
 from django.db import models
 
-
 CHOICES = (
     ('Gray', 'Серый'),
     ('Black', 'Чёрный'),
